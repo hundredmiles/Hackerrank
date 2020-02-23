@@ -55,14 +55,14 @@ def bonetrousle(n, k, b):
 
                 if (diff > 0) and (diff in val_box) :
                     if (diff not in outcome):
-                        print('line 57')
+                        print('line 58')
                         outcome.append(diff)
                         outcome.sort()
                         print(outcome)
                         return outcome
 
                     elif (diff in outcome):
-                        print('line 64')
+                        print('line 65')
                         if (len(outcome) == 1) and diff == min(outcome):
                             print('line 66')
                             t = min(outcome)
@@ -71,20 +71,32 @@ def bonetrousle(n, k, b):
                             outcome.append(t-1)
                         else:
                             print('line 72')
+                            temp_min = min(outcome)
                             outcome.append(max(outcome) + 1)
-                            outcome.append(1)
-                            # outcome.append(max(outcome) + 1)
-                            s = sum(outcome)
-                            rem = abs(n - s)
-                            if rem in outcome:
-                                outcome.remove(rem)
-                            elif len(outcome) == 3:
-                                outcome.remove(1)
+                            diff = n - sum(outcome)
+                            if (temp_min - abs(diff) > 0):
+                                outcome.remove(temp_min)
+                                outcome.append(temp_min - abs(diff))
+                                return outcome
+                            else:
+                                # outcome.append(max(outcome) + 1)
+                                # temp_min = min(outcome)
+                                outcome.append(1)
+                                # outcome.append(max(outcome) + 1)
+                                s = sum(outcome)
                                 rem = abs(n - s)
-                                m = min(outcome)
-                                outcome.remove(m)
-                                outcome.append(m - rem)
-                        if max(outcome) <= max(val_box): 
+                                if rem in outcome:
+                                    outcome.remove(rem)
+                                elif len(outcome) == 3:
+                                    outcome.remove(1)
+                                    rem = abs(n - s)
+                                    m = min(outcome)
+                                    outcome.remove(m)
+                                    outcome.append(m - rem)
+                            # else :
+
+
+                        if max(outcome) <= max(val_box):
                             outcome.sort()
                             return outcome
                         else:
@@ -94,73 +106,55 @@ def bonetrousle(n, k, b):
 
                 elif (diff < 0):
                     temp_min = min(outcome)
-                    outcome.append(1)
-                    diff = n - sum(outcome)
+                    if diff == -1:
+                        # temp_min = min(outcome)
+                        outcome.append(1)
+                        outcome.remove(temp_min)
+                        outcome.append(temp_min - 2)
 
-                    if sum(outcome) == n:
-                        print(sum(outcome))
-                        outcome.sort()
-                        return outcome
-
-                    elif abs(diff) in outcome:
-                        outcome.append(2)
+                    else:
+                        # temp_min = min(outcome)
+                        outcome.append(1)
                         diff = n - sum(outcome)
-                        if abs(diff) in outcome:
-                            outcome.remove(abs(diff))
+
+                        if sum(outcome) == n:
+                            print(sum(outcome))
                             outcome.sort()
                             return outcome
-                        else:
-                            outcome = []
-                            outcome.append(-1)
-                            return outcome
 
-                    elif abs(diff) not in outcome:
-                        if (temp_min - abs(diff) > 0):
-                            outcome.remove(temp_min)
-                            outcome.append(temp_min - abs(diff))
-                            return outcome
-                        else:
-                            outcome = []
-                            outcome.append(-1)
-                            return outcome
+                        elif abs(diff) in outcome:
+                            outcome.append(2)
+                            diff = n - sum(outcome)
+                            if abs(diff) in outcome:
+                                outcome.remove(abs(diff))
+                                outcome.sort()
+                                return outcome
+                            else:
+                                outcome = []
+                                outcome.append(-1)
+                                return outcome
 
-                    
-                    # print(diff)
-                    # print('line 95')
-                    # print(outcome)
-                    # outcome.append(1)
-                    # print(sum(outcome))
+                        elif abs(diff) not in outcome:
+                            print('line 138')
+                            print("diff: ", diff)
+                            print('temp_min: ', temp_min)
+                            if (temp_min - abs(diff) > 0):
+                                print('line 141')
+                                if temp_min - abs(diff) == 1:
+                                    print('line 143')
+                                    outcome.remove(temp_min + 1)
+                                    outcome.append(temp_min - abs(diff) + 1)
 
-                    # if sum(outcome) == n:
-                    #     print(sum(outcome))
-                    #     outcome.sort()
-                    #     return outcome
-                    
-                    # else:
-                    #     outcome.append(2)
-                    #     if sum(outcome) == n:
-                    #         print(sum(outcome))
-                    #         outcome.sort()
-                    #         return outcome
-                    #     else:
-                    #         s = sum(outcome)
-                    #         rem = abs(n - s)
-                    #         if rem in outcome:
-                    #             outcome.remove(rem)
-                    #             return outcome
+                                else:
+                                    print('line 147')
+                                    outcome.remove(temp_min)
+                                    outcome.append(temp_min - abs(diff))
 
-                    #         elif (min(outcome) - rem) < 1:
-                    #             outcome = []
-                    #             outcome.append(-1)
-                    #             return outcome
-
-                    #         elif (min(outcome) - rem) > 1:
-                    #             min_val = min(outcome)
-                    #             outcome.remove(min_val)
-                    #             outcome.append(min_val - 4)
-                    #             outcome.sort()
-                    #             print(outcome)
-                    #             return outcome
+                                return outcome
+                            else:
+                                outcome = []
+                                outcome.append(-1)
+                                return outcome
 
                 elif (diff == 0):
                     s_n = min(outcome)
@@ -210,7 +204,7 @@ def bonetrousle(n, k, b):
                             outcome.append(avg_new)
                             temp_one = avg_new
                             temp_two = avg_new
-                        
+
                     elif not flag_one:
                         if (j % 2 != 0):
                             temp_one += temp_one
@@ -223,30 +217,30 @@ def bonetrousle(n, k, b):
     print(outcome)
 
 
+
 if __name__ == '__main__':
     fptr = open(os.environ['OUTPUT_PATH'], 'w')
 
-    t = int(input())
+t = int(input())
 
-    for t_itr in range(t):
-        nkb = input().split()
+for t_itr in range(t):
+    nkb = input().split()
 
-        n = int(nkb[0])
+    n = int(nkb[0])
 
-        k = int(nkb[1])
+    k = int(nkb[1])
 
-        b = int(nkb[2])
+    b = int(nkb[2])
 
-        result = bonetrousle(n, k, b)
+    result = bonetrousle(n, k, b)
 
-        fptr.write(' '.join(map(str, result)))
-        fptr.write('\n')
+    fptr.write(' '.join(map(str, result)))
+    fptr.write('\n')
 
-    fptr.close()
+fptr.close()
 	
 
 """
-
 ***********Sample Input - 4***********
 20
 4 7 1
@@ -269,6 +263,50 @@ if __name__ == '__main__':
 280 300 1
 173 45 10
 61 15 5
+----------------My Output---------
+4
+2 6 7 8 9 10 11 12 13
+1 2 3 4 5 6 7 8 9 10 11 13
+4 6 7 8 9
+1 5 6 7 8 9 10 11 12 13 14 15 17 18 19 20
+23 25
+-1
+-1
+1 8 9 10 11 12 13 14 16 17 18 19 20 21 22 23
+21 22 23 24 25 26 27 28 29 30
+15 16 17 12
+93 96 97
+1 5 7 8 9 10 11 12 13 14
+139 141
+2
+12 13 11 14 10 15 9 16 8 17 7 18 6 19 5 20 21 1 1
+13 14 12 15 16 7
+280
+11 14 15 16 17 18 19 20 21 22
+7 12 13 14 15
+----------------My Output---------
+4
+2 6 7 8 9 10 11 12 13
+1 2 3 4 5 6 7 8 9 10 11 13
+4 6 7 8 9
+1 5 6 7 8 9 10 11 12 13 14 15 17 18 19 20
+23 25
+-1
+-1
+1 8 9 10 11 12 13 14 16 17 18 19 20 21 22 23
+21 22 23 24 25 26 27 28 29 30
+15 16 17 12
+93 96 97
+1 5 7 8 9 10 11 12 13 14
+139 141
+2
+12 13 11 14 10 15 9 16 8 17 7 18 6 19 5 20 21 1 1
+
+1 11 12 13 14 15 16
+
+280
+11 14 15 16 17 18 19 20 21 22
+7 12 13 14 15
 ***********Expected Output***********
 4
 16 1 2 3 4 5 6 7 34
@@ -289,27 +327,6 @@ if __name__ == '__main__':
 20 1 2 3 4 47
 280
 20 1 2 3 4 5 6 43 44 45
-7 12 13 14 15
-----------------My Output----------------------
-4
-2 6 7 8 9 10 11 12 13
-1 2 3 4 5 6 7 8 9 10 11 13
-4 6 7 8 9
-1 5 6 7 8 9 10 11 12 13 14 15 17 18 19 20
-23 25
--1
--1
-1 8 9 10 11 12 13 14 16 17 18 19 20 21 22 23
-21 22 23 24 25 26 27 28 29 30
-1 14 15 16 17 - wrong
-93 96 97
-1 5 7 8 9 10 11 12 13 14
-139 141
-2
-12 13 11 14 10 15 9 16 8 17 7 18 6 19 5 20 21 1 1 - wrong
-1 11 12 13 14 15 16 - wrong
-280
-11 14 15 16 17 18 19 20 21 22
 7 12 13 14 15
 
 ***********Sample Input***********
@@ -431,4 +448,3 @@ if __name__ == '__main__':
 
 
 """
-	
